@@ -10,7 +10,7 @@ import UIKit
 @IBDesignable class RatingControl: UIStackView {
     // MARK: Properties
     
-    // buttons
+    // buttons: will set up layout in setUpButtons()
     private var starButtons: [UIButton] = []
     
     // five stars and size 44 * 44
@@ -79,7 +79,7 @@ import UIKit
             // Accessibility
             starButton.accessibilityLabel = "Set \(index + 1) star rating"
             
-            // Add target to action
+            // Add target to action, alternative to IBAction
             starButton.addTarget(self, action: #selector(RatingControl.starButtonClicked(button:)), for: .touchUpInside)
             
             // Stackview add subview

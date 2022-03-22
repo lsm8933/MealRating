@@ -26,5 +26,4 @@ class MealRatingTests: XCTestCase {
         let emptyNameMeal = Meal.init(name: "", photo: nil, rating: 4)
         XCTAssertNil(emptyNameMeal)
     }
-
 }

@@ -9,24 +9,20 @@ import UIKit
 
 @IBDesignable class RatingControl: UIStackView {
     // MARK: Properties
-    
-    // buttons: will set up layout in setUpButtons()
     private var starButtons: [UIButton] = []
     
-    // five stars and size 44 * 44
     @IBInspectable var starCount: Int = 5 {
-        // 2. Data/Property change reflects to UI change
         didSet {
             setUpButtons()
         }
     }
+    
     @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0) {
         didSet {
             setUpButtons()
         }
     }
     
-    // rating
     var rating: Int = 0 {
         didSet {
             updateButtonSelections()
@@ -45,8 +41,9 @@ import UIKit
     }
     
     //MARK: Private Methods
+    /// programmatically create buttons with images for different states, add constraints, and update the selected number of buttons,
     private func setUpButtons() {
-        // First of all, remove existing buttons from RatingControl stack view and starbuttons array
+        // First remove existing buttons from RatingControl stack view and starbuttons array
         for button in starButtons {
             removeArrangedSubview(button)
             button.removeFromSuperview()
@@ -61,7 +58,6 @@ import UIKit
         
         // Add Star Buttons to the RatingControl stack view
         for index in 0..<starCount {
-            // Add button(s)
             let starButton = UIButton()
             
             // Setup button images
@@ -91,9 +87,10 @@ import UIKit
         updateButtonSelections()
     }
     
+    /// update the number of selected starButtons to match user rating.
     private func updateButtonSelections() {
+        
         for (index, button) in starButtons.enumerated() {
-            // index + 1 <= rating: selected
             button.isSelected = (index + 1 <= rating)
             
             // Accessibility
@@ -105,9 +102,8 @@ import UIKit
     }
     
     //MARK: Star Button Actions
-    // 1. UI user input changes Data/Property
+    /// update rating based on which button was pressed: if the current rating button was pressed, rating will be reset to 0; else rating will be set to (index of the button) + 1
     @objc func starButtonClicked(button: UIButton) {
-        //print("star pressed")
         guard let index = starButtons.firstIndex(of: button) else {
             fatalError("\(button) does not exist in starButtons.")
         }

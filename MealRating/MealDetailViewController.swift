@@ -16,14 +16,14 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var chooseImageView: UIImageView!
-    // after setting ratingControl in storyboard identity inspector, connect the outlet reference to the controller
+
     @IBOutlet weak var ratingControl: RatingControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // set up delegate to respond to textfield inputs
         nameTextField.delegate = self
-        // TODO: naneTextfield.text is empty: should popup alert when saving
+        // TODO: nameTextfield.text is empty: should popup alert when saving
         //to solve cursor always flashing
         //nameTextField.tintColor = UIColor.clear
         //updateSaveButtonStatus()
@@ -37,11 +37,10 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
 
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // does nothing in this case, but good practice to call super method in case for subclassing other view controller classes
         super.prepare(for: segue, sender: sender)
         
         if let barButton = sender as? UIBarButtonItem, barButton === saveButton {
-            // name of meal cannot be nil, which is text of textfield could be (String?)
+            
             let mealName = nameTextField.text ?? ""
             let mealImage = chooseImageView.image
             let mealRating = ratingControl.rating
@@ -52,9 +51,11 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     
     // MARK: IBAction for Navigation
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        if presentingViewController is UINavigationController { // If presented modally (adding a new meal), even if detail scene would still be embeded in a navigation controller in this case.
+        // If presented modally (adding a new meal), even if detail scene would still be embeded in a navigation controller in this case.
+        if presentingViewController is UINavigationController {
             dismiss(animated: true, completion: nil)
-        } else if navigationController != nil { // If only pushed on navigation stack without under modal operations
+        // If only pushed on navigation stack without under modal operations
+        } else if navigationController != nil {
             navigationController?.popViewController(animated: true)
         }
     }
@@ -86,22 +87,10 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     }
     
     // MARK: UITextFieldDelegate
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        //saveButton.isEnabled = false
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //updateSaveButtonStatus()
         textField.resignFirstResponder()
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        //updateSaveButtonStatus()
-        //navigationItem.title = textField.text
-//        nameLabel.text = textField.text
-//        // Apple code bug fix
-//        textField.text = ""
     }
     
     // MARK: Private methods

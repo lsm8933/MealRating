@@ -67,6 +67,9 @@ import UIKit
             starButton.setImage(starSelected, for: .selected)
             starButton.setImage(starHighlighted, for: [.selected, .highlighted])
             
+            // Stackview add subview
+            addArrangedSubview(starButton)
+            
             // Programmatically set up auto layout
             starButton.translatesAutoresizingMaskIntoConstraints = false
             starButton.heightAnchor.constraint(equalToConstant: starSize.height).isActive = true
@@ -77,9 +80,6 @@ import UIKit
             
             // Add target to action, alternative to IBAction
             starButton.addTarget(self, action: #selector(RatingControl.starButtonClicked(button:)), for: .touchUpInside)
-            
-            // Stackview add subview
-            addArrangedSubview(starButton)
             
             // Add to button array
             starButtons.append(starButton)

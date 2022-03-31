@@ -29,7 +29,7 @@ import UIKit
         }
     }
 
-    //MARK: Initialization
+    // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpButtons()
@@ -40,7 +40,7 @@ import UIKit
         setUpButtons()
     }
     
-    //MARK: Private Methods
+    // MARK: - Private Methods
     /// programmatically create buttons with images for different states, add constraints, and update the selected number of buttons,
     private func setUpButtons() {
         // First remove existing buttons from RatingControl stack view and starbuttons array
@@ -101,7 +101,7 @@ import UIKit
         }
     }
     
-    //MARK: Star Button Actions
+    // MARK: - Star Button Actions
     /// update rating based on which button was pressed: if the current rating button was pressed, rating will be reset to 0; else rating will be set to (index of the button) + 1
     @objc func starButtonClicked(button: UIButton) {
         guard let index = starButtons.firstIndex(of: button) else {

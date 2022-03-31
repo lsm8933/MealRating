@@ -35,7 +35,7 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         }
     }
 
-    // MARK: Navigation
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -49,7 +49,7 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         }
     }
     
-    // MARK: IBAction for Navigation
+    // MARK: - IBAction for Navigation
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         // If presented modally (adding a new meal), even if detail scene would still be embeded in a navigation controller in this case.
         if presentingViewController is UINavigationController {
@@ -60,7 +60,7 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         }
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         nameTextField.resignFirstResponder()
         
@@ -71,7 +71,7 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         present(imagePicker, animated: true, completion: nil)
     }
     
-    // MARK: UIImagePickerControllerDelegate
+    // MARK: - UIImagePickerControllerDelegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.originalImage] as? UIImage else {
             fatalError("expecting UIImage but having \(info)")
@@ -86,14 +86,14 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         dismiss(animated: true, completion: nil)
     }
     
-    // MARK: UITextFieldDelegate
+    // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //updateSaveButtonStatus()
         textField.resignFirstResponder()
         return true
     }
     
-    // MARK: Private methods
+    // MARK: - Private methods
     private func updateSaveButtonStatus() {
         saveButton.isEnabled = !(nameTextField.text?.isEmpty ?? true)
     }

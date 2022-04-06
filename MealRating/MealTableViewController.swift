@@ -13,12 +13,7 @@ class MealTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment if using NSKeyedArchiver
-//        if !loadMeals() {
-//            loadPreSavedMeals()
-//        }
-        
+
         navigationItem.leftBarButtonItem = editButtonItem
         
         setupData()
@@ -54,10 +49,7 @@ class MealTableViewController: UITableViewController {
         
         cell.nameLabel.text = meal.name
         cell.ratingControl.rating = meal.rating
-        // Uncomment if using NSKeyedArchiver
-        //cell.dishImageView.image = meal.photo
-        
-        // GRDB
+
         if let imageData = meal.imageData {
             cell.dishImageView.image = UIImage(data: imageData)
         }
@@ -72,8 +64,6 @@ class MealTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Uncomment if using NSKeyedArchiver
-            //saveMeals(meals)
             guard let meals = meals else {
                 return
             }
@@ -117,18 +107,12 @@ class MealTableViewController: UITableViewController {
 
                 meals?.append(meal)
                 
-//                guard let meals = meals else {
-//                    return
-//                }
                 if let mealsCount = meals?.count {
                     let newIndexPath = IndexPath(row: mealsCount - 1, section: 0)
                     tableView.insertRows(at: [newIndexPath], with: .automatic)
                 }
             }
-            
-            // Uncomment if using USKeyedArchiver
-            //saveMeals(meals)
-            
+
             // GRDB insert/update single meal
             do {
                 try AppDatabase.shared?.saveMeal(meal: &meal)
@@ -148,47 +132,4 @@ class MealTableViewController: UITableViewController {
             return
         }
     }
-    
-    // Uncomment if using NSKeyedArchiver
-    /*
-    private func saveMeals(_ meals: [Meal]) {
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: meals, requiringSecureCoding: false)
-            try data.write(to: Meal.path)
-        } catch {
-            print("Unable to save meals: \(error.localizedDescription)")
-        }
-    }
-    
-    private func loadMeals() -> Bool {
-        do {
-            let data = try Data.init(contentsOf: Meal.path)
-            if let meals =  try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Meal] {
-                self.meals = meals
-                return true
-            }
-        } catch {
-            print("Unable to load meals: \(error.localizedDescription)")
-        }
-        return false
-    }
-    
-    private func loadPreSavedMeals() {
-        let meal1Image = UIImage(named: "dish1")
-        let meal2Image = UIImage(named: "dish2")
-        let meal3Image = UIImage(named: "dish3")
-        
-        guard let meal1 = Meal(name: "Cute Buns", photo: meal1Image, rating: 5) else {
-            fatalError("Unable to create pre-saved meal")
-        }
-        guard let meal2 = Meal(name: "Delicious Chinese Food", photo: meal2Image, rating: 4) else {
-            fatalError("Unable to create pre-saved meal")
-        }
-        guard let meal3 = Meal(name: "Tasty Delight", photo: meal3Image, rating: 4) else {
-            fatalError("Unable to create pre-saved meal")
-        }
-        
-        meals.append(contentsOf: [meal1, meal2, meal3])
-    }
-    */
 }

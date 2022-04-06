@@ -9,6 +9,7 @@ import Foundation
 import GRDB
 
 extension AppDatabase {
+    // singleton instance
     static var shared: AppDatabase? {
         if instance == nil {
             instance = makeAppDatabase()

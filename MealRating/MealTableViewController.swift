@@ -20,7 +20,6 @@ class MealTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -32,7 +31,6 @@ class MealTableViewController: UITableViewController {
 
         return meals.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "MealTableViewCell"
@@ -57,7 +55,6 @@ class MealTableViewController: UITableViewController {
         return cell
     }
     
-
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -93,14 +90,14 @@ class MealTableViewController: UITableViewController {
     }
     
     // MARK: - Navigation IBAction
-    // Navigation
     @IBAction func unwind(for segue: UIStoryboardSegue) {
         if let sourceController = segue.source as? MealDetailViewController, var meal = sourceController.meal {
             // If coming from editing existing meal
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 self.meals?[selectedIndexPath.row] = meal
                 tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
-            } else { // If coming from adding a new meal
+            } else {
+                // If coming from adding a new meal
                 if meals == nil {
                     meals = []
                 }

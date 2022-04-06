@@ -61,7 +61,6 @@ import UIKit
             let starButton = UIButton()
             
             // Setup button images
-            //starButton.backgroundColor = UIColor.blue
             starButton.setImage(starEmpty, for: .normal)
             starButton.setImage(starHighlighted, for: .highlighted)
             starButton.setImage(starSelected, for: .selected)
@@ -114,5 +113,4 @@ import UIKit
             rating = index + 1
         }
     }
-
 }

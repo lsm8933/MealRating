@@ -63,7 +63,6 @@ extension AppDatabase {
         })
     }
     
-    
     func saveMeal(meal: inout Meal) throws {
         try dbWriter.write { db in
             try meal.save(db)

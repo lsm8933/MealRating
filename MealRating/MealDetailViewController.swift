@@ -10,7 +10,6 @@ import UIKit
 class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
     // MARK: Properties
-    // new meal to add when saveButton is tapped.
     var meal: Meal?
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -21,8 +20,9 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // set up delegate to respond to textfield inputs
+
         nameTextField.delegate = self
+        
         // TODO: nameTextfield.text is empty: should popup alert when saving
         //to solve cursor always flashing
         //nameTextField.tintColor = UIColor.clear
@@ -86,7 +86,7 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         }
         
         chooseImageView.image = selectedImage
-        
+
         dismiss(animated: true, completion: nil)
     }
     

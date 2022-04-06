@@ -30,7 +30,13 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         
         if let meal = self.meal {
             nameTextField.text = meal.name
-            chooseImageView.image = meal.photo
+            // Uncomment if using NSKeyedArchiver
+            //chooseImageView.image = meal.photo
+            
+            // GRDB
+            if let imageData = meal.imageData {
+                chooseImageView.image = UIImage(data: imageData)
+            }
             ratingControl.rating = meal.rating
         }
     }
@@ -45,7 +51,17 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
             let mealImage = chooseImageView.image
             let mealRating = ratingControl.rating
             
-            meal = Meal(name: mealName, photo: mealImage, rating: mealRating)
+            // Uncomment if using NSKeyedArchiver
+            //meal = Meal(name: mealName, photo: mealImage, rating: mealRating)
+            
+            // GRDB
+            if meal != nil { // update meal
+                meal?.name = mealName
+                meal?.rating = mealRating
+                meal?.imageData = mealImage?.jpegData(compressionQuality: 1)
+            } else { // insert new meal
+                meal = Meal(id: nil, name: mealName, rating: mealRating, imageData: mealImage?.jpegData(compressionQuality: 1))
+            }
         }
     }
     

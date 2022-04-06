@@ -9,16 +9,19 @@ import UIKit
 
 class MealTableViewController: UITableViewController {
     // MARK: Properties
-    var meals : [Meal] = []
+    var meals : [Meal]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if !loadMeals() {
-            loadPreSavedMeals()
-        }
+        // Uncomment if using NSKeyedArchiver
+//        if !loadMeals() {
+//            loadPreSavedMeals()
+//        }
         
         navigationItem.leftBarButtonItem = editButtonItem
+        
+        setupData()
     }
 
     // MARK: - Table view data source
@@ -28,6 +31,10 @@ class MealTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let meals = meals else {
+            return 0
+        }
+
         return meals.count
     }
 
@@ -39,11 +46,21 @@ class MealTableViewController: UITableViewController {
             fatalError("Unable to dequeue meal cell.")
         }
         
+        guard let meals = meals else {
+            return cell
+        }
+        
         let meal = meals[indexPath.row]
         
         cell.nameLabel.text = meal.name
         cell.ratingControl.rating = meal.rating
-        cell.dishImageView.image = meal.photo
+        // Uncomment if using NSKeyedArchiver
+        //cell.dishImageView.image = meal.photo
+        
+        // GRDB
+        if let imageData = meal.imageData {
+            cell.dishImageView.image = UIImage(data: imageData)
+        }
         
         return cell
     }
@@ -55,9 +72,23 @@ class MealTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            // Uncomment if using NSKeyedArchiver
+            //saveMeals(meals)
+            guard let meals = meals else {
+                return
+            }
+
+            // GRDB delete single meal
+            if let mealId = meals[indexPath.row].id {
+                do {
+                    try AppDatabase.shared?.deleteMeal(ids: [mealId])
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
+            
             // Delete the row from the data source
-            meals.remove(at: indexPath.row)
-            saveMeals(meals)
+            self.meals?.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -66,7 +97,7 @@ class MealTableViewController: UITableViewController {
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let selectedCell = sender as? MealTableViewCell, let selectedIndexPath = tableView.indexPath(for: selectedCell), let mealDetailController = segue.destination as? MealDetailViewController {
+        if let selectedCell = sender as? MealTableViewCell, let selectedIndexPath = tableView.indexPath(for: selectedCell), let mealDetailController = segue.destination as? MealDetailViewController, let meals = meals {
             mealDetailController.meal = meals[selectedIndexPath.row]
         }
     }
@@ -74,22 +105,52 @@ class MealTableViewController: UITableViewController {
     // MARK: - Navigation IBAction
     // Navigation
     @IBAction func unwind(for segue: UIStoryboardSegue) {
-        if let sourceController = segue.source as? MealDetailViewController, let meal = sourceController.meal {
+        if let sourceController = segue.source as? MealDetailViewController, var meal = sourceController.meal {
             // If coming from editing existing meal
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                meals[selectedIndexPath.row] = meal
+                self.meals?[selectedIndexPath.row] = meal
                 tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
             } else { // If coming from adding a new meal
-                meals.append(meal)
+                if meals == nil {
+                    meals = []
+                }
+
+                meals?.append(meal)
                 
-                let newIndexPath = IndexPath(row: meals.count - 1, section: 0)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+//                guard let meals = meals else {
+//                    return
+//                }
+                if let mealsCount = meals?.count {
+                    let newIndexPath = IndexPath(row: mealsCount - 1, section: 0)
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                }
             }
-            saveMeals(meals)
+            
+            // Uncomment if using USKeyedArchiver
+            //saveMeals(meals)
+            
+            // GRDB insert/update single meal
+            do {
+                try AppDatabase.shared?.saveMeal(meal: &meal)
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
     }
     
     // MARK: Private methods
+    private func setupData(){
+        do {
+            try AppDatabase.shared?.insertMealsIfEmpty()
+            meals = try AppDatabase.shared?.fetchMeals()
+        } catch let err {
+            print(err.localizedDescription)
+            return
+        }
+    }
+    
+    // Uncomment if using NSKeyedArchiver
+    /*
     private func saveMeals(_ meals: [Meal]) {
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: meals, requiringSecureCoding: false)
@@ -129,5 +190,5 @@ class MealTableViewController: UITableViewController {
         
         meals.append(contentsOf: [meal1, meal2, meal3])
     }
-
+    */
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,8 @@
 		9F40A0B926B81E1A003EADE5 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40A0B826B81E1A003EADE5 /* Meal.swift */; };
 		9F58E08226BA9C260045896F /* MealTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F58E08126BA9C260045896F /* MealTableViewCell.swift */; };
 		9F58E08A26BAE9A70045896F /* MealTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F58E08926BAE9A70045896F /* MealTableViewController.swift */; };
+		9FD98E6227F59F80003D5140 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD98E6127F59F80003D5140 /* AppDatabase.swift */; };
+		9FD98E6427F59F8F003D5140 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD98E6327F59F8F003D5140 /* Persistence.swift */; };
 		B0CC2E5BF70EE44E002EA33A /* Pods_MealRating_MealRatingUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1221E4CFCD839223E3F3DF5D /* Pods_MealRating_MealRatingUITests.framework */; };
 		DCF333FCED621AEEE43542C1 /* Pods_MealRating.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5C6D3C52AD3D5FF76F876F /* Pods_MealRating.framework */; };
 /* End PBXBuildFile section */
@@ -65,6 +67,8 @@
 		9F40A0B826B81E1A003EADE5 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		9F58E08126BA9C260045896F /* MealTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealTableViewCell.swift; sourceTree = "<group>"; };
 		9F58E08926BAE9A70045896F /* MealTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealTableViewController.swift; sourceTree = "<group>"; };
+		9FD98E6127F59F80003D5140 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
+		9FD98E6327F59F8F003D5140 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		B3C3909C84F3B93A9F3F5A9F /* Pods-MealRatingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MealRatingTests.release.xcconfig"; path = "Target Support Files/Pods-MealRatingTests/Pods-MealRatingTests.release.xcconfig"; sourceTree = "<group>"; };
 		C9DDB71638887B4AC27FAA45 /* Pods-MealRating.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MealRating.release.xcconfig"; path = "Target Support Files/Pods-MealRating/Pods-MealRating.release.xcconfig"; sourceTree = "<group>"; };
 		CA4AB655681BD4C2D4F114F2 /* Pods-MealRatingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MealRatingTests.debug.xcconfig"; path = "Target Support Files/Pods-MealRatingTests/Pods-MealRatingTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +139,8 @@
 			isa = PBXGroup;
 			children = (
 				9F02D1292614945D00C2086D /* AppDelegate.swift */,
+				9FD98E6127F59F80003D5140 /* AppDatabase.swift */,
+				9FD98E6327F59F8F003D5140 /* Persistence.swift */,
 				9F02D12B2614945D00C2086D /* SceneDelegate.swift */,
 				9F58E08926BAE9A70045896F /* MealTableViewController.swift */,
 				9F02D12D2614945D00C2086D /* MealDetailViewController.swift */,
@@ -177,7 +183,6 @@
 				CA4AB655681BD4C2D4F114F2 /* Pods-MealRatingTests.debug.xcconfig */,
 				B3C3909C84F3B93A9F3F5A9F /* Pods-MealRatingTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -419,8 +424,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD98E6427F59F8F003D5140 /* Persistence.swift in Sources */,
 				9F40A0B926B81E1A003EADE5 /* Meal.swift in Sources */,
 				9F1519EE269BF293008DFE26 /* RatingControl.swift in Sources */,
+				9FD98E6227F59F80003D5140 /* AppDatabase.swift in Sources */,
 				9F58E08A26BAE9A70045896F /* MealTableViewController.swift in Sources */,
 				9F58E08226BA9C260045896F /* MealTableViewCell.swift in Sources */,
 				9F02D12E2614945D00C2086D /* MealDetailViewController.swift in Sources */,

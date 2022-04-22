@@ -34,6 +34,12 @@ final class AppDatabase {
         self.dbWriter = dbWriter
         try dbMigrator.migrate(dbWriter)
     }
+    
+    func observeMeals(onError: @escaping (Error) -> Void, onChange: @escaping ([Meal]) -> Void) -> DatabaseCancellable {
+        return ValueObservation
+            .tracking(Meal.all().fetchAll)
+            .start(in: dbWriter, onError: onError, onChange: onChange)
+    }
 }
 
 extension AppDatabase {
@@ -75,7 +81,7 @@ extension AppDatabase {
         }
     }
     
-    func deleteAllMeal() throws {
+    func deleteAllMeals() throws {
         let _ = try dbWriter.write({ db in
             try Meal.deleteAll(db)
         })

@@ -8,7 +8,7 @@
 import UIKit
 import GRDB
 
-struct Meal: Identifiable {
+struct Meal: Identifiable, Hashable {
     var id: Int64?
     var name: String
     var rating: Int

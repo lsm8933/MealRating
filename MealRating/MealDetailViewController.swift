@@ -17,24 +17,12 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     @IBOutlet weak var chooseImageView: UIImageView!
 
     @IBOutlet weak var ratingControl: RatingControl!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        nameTextField.delegate = self
         
-        // TODO: nameTextfield.text is empty: should popup alert when saving
-        //to solve cursor always flashing
-        //nameTextField.tintColor = UIColor.clear
-        //updateSaveButtonStatus()
-        
-        if let meal = self.meal {
-            nameTextField.text = meal.name
-            if let imageData = meal.imageData {
-                chooseImageView.image = UIImage(data: imageData)
-            }
-            ratingControl.rating = meal.rating
-        }
+        setupInputFields()
+        setupKeyboardDismiss()
     }
 
     // MARK: - Navigation
@@ -69,7 +57,6 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
         }
     }
     
-    // MARK: - IBAction for Navigation
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         // If presented modally (adding a new meal), even if detail scene would still be embeded in a navigation controller in this case.
         if presentingViewController is UINavigationController {
@@ -81,6 +68,10 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     }
     
     // MARK: - Actions
+    @objc func tapDismissKeyboard(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         nameTextField.resignFirstResponder()
         
@@ -107,15 +98,32 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     }
     
     // MARK: - UITextFieldDelegate
+    // dismiss keyboard with return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //updateSaveButtonStatus()
         textField.resignFirstResponder()
         return true
     }
     
     // MARK: - Private methods
-    private func updateSaveButtonStatus() {
-        saveButton.isEnabled = !(nameTextField.text?.isEmpty ?? true)
+    fileprivate func setupInputFields() {
+        guard let meal = meal else {
+            return
+        }
+        
+        nameTextField.text = meal.name
+        if let imageData = meal.imageData {
+            chooseImageView.image = UIImage(data: imageData)
+        }
+        ratingControl.rating = meal.rating
+    }
+    
+    fileprivate func setupKeyboardDismiss() {
+        // dismiss keyboard when user finishes textfield editing.
+        nameTextField.delegate = self
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDismissKeyboard(_:)))
+        tapGestureRecognizer.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGestureRecognizer)
     }
 }
 

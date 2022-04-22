@@ -96,9 +96,8 @@ class MealTableViewController: UITableViewController {
                 }
             }
 
-            // // Following is no longer needed with Value Observation in GRDB:
+            // // No longer needed with Value Observation in GRDB:
             // // delete the item from model object and delete the row from the table view.
-            
             // self.meals?.remove(at: indexPath.row)
             // tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -116,7 +115,7 @@ class MealTableViewController: UITableViewController {
         guard let sourceController = segue.source as? MealDetailViewController, var meal = sourceController.meal else {
             return
         }
-        //            // Following is no longer needed with Value Observation in GRDB:
+        //            // No longer needed with Value Observation in GRDB:
         //            // the insertion and update of meals and tableView:
         
         //            // If coming from editing existing meal

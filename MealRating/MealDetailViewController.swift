@@ -38,12 +38,24 @@ class MealDetailViewController: UIViewController, UITextFieldDelegate, UIImagePi
     }
 
     // MARK: - Navigation
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        // meal name is required.
+        guard let nameText = nameTextField.text, nameText != "" else {
+    
+            let emptyNameAlertController = UIAlertController(title: "Enter Name", message: "Please enter a name for your meal.", preferredStyle: .alert)
+            emptyNameAlertController.addAction(UIAlertAction.init(title: "OK", style: .default, handler: nil))
+            self.present(emptyNameAlertController, animated: true, completion: nil)
+            
+            return false
+        }
+        return true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        if let barButton = sender as? UIBarButtonItem, barButton === saveButton {
+        if let barButton = sender as? UIBarButtonItem, barButton === saveButton, let mealName = nameTextField.text {
             
-            let mealName = nameTextField.text ?? ""
             let mealImage = chooseImageView.image
             let mealRating = ratingControl.rating
             

@@ -37,8 +37,6 @@ class MealTableViewController: UITableViewController {
 
         navigationItem.leftBarButtonItem = editButtonItem
         
-        //  // No longer needed when using Value Observation in GRDB.
-        //setupMeals()
         observeMeals()
         //setupDiffableDataSource()
     }
@@ -95,11 +93,6 @@ class MealTableViewController: UITableViewController {
                     print(error.localizedDescription)
                 }
             }
-
-            // // No longer needed with Value Observation in GRDB:
-            // // delete the item from model object and delete the row from the table view.
-            // self.meals?.remove(at: indexPath.row)
-            // tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 
@@ -115,26 +108,6 @@ class MealTableViewController: UITableViewController {
         guard let sourceController = segue.source as? MealDetailViewController, var meal = sourceController.meal else {
             return
         }
-        //            // No longer needed with Value Observation in GRDB:
-        //            // the insertion and update of meals and tableView:
-        
-        //            // If coming from editing existing meal
-        //            if let selectedIndexPath = tableView.indexPathForSelectedRow {
-        //                self.meals?[selectedIndexPath.row] = meal
-        //                tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
-        //            } else {
-        //                // If coming from adding a new meal
-        //                if meals == nil {
-        //                    meals = []
-        //                }
-        //
-        //                meals?.append(meal)
-        //
-        //                if let mealsCount = meals?.count {
-        //                    let newIndexPath = IndexPath(row: mealsCount - 1, section: 0)
-        //                    tableView.insertRows(at: [newIndexPath], with: .automatic)
-        //                }
-        //            }
         
         // GRDB insert/update single meal
         do {
@@ -162,6 +135,8 @@ class MealTableViewController: UITableViewController {
 //        tableView.dataSource = diffableDataSource
 //    }
     
+    // uses Value Observation in GRDB,
+    // thus avoids the operations on meals and tableview each time a CRUD operaton happens at the database.
     fileprivate func observeMeals() {
         do {
             try AppDatabase.shared?.insertMealsIfEmpty()

@@ -28,6 +28,8 @@ class MealTableViewController: UITableViewController {
         if let imageData = meal.imageData {
             cell.dishImageView.image = UIImage(data: imageData)
         }
+        // cell background turns grey after being tapped solution.
+        cell.selectionStyle = .none
 
         return cell
     }
@@ -97,7 +99,7 @@ class MealTableViewController: UITableViewController {
 //            }
 //        }
 //    }
-
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let selectedCell = sender as? MealTableViewCell, let selectedIndexPath = tableView.indexPath(for: selectedCell), let mealDetailController = segue.destination as? MealDetailViewController {
